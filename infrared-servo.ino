@@ -2,8 +2,12 @@
 
 #define pTrigger 4
 #define pEcho 7
-#define pServo 9
 #define MAX_DISTANCE 12
+
+#define pServo 9
+#define servoClose 0
+#define servoOpen 90
+#define servoOpenTime 500
 
 void setup()
 {
@@ -14,14 +18,16 @@ void setup()
   pinMode(LED_BUILTIN, OUTPUT);
   digitalWrite(LED_BUILTIN, LOW);
 
-  // Init sensors
+  // Init sensor
   initUltrasonic(pTrigger, pEcho, MAX_DISTANCE);
-  initServo(pServo);
+
+  // Init servo
+  initServo(pServo, servoClose, servoOpen, servoOpenTime);
 }
 
 void loop()
 {
   long distance = ultrasinicPing();
-  servoMove(distance);
+  servoOpen(distance);
   delay(200);
 }
