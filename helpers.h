@@ -5,8 +5,9 @@ int pTrigger;
 int pEcho;
 int MAX_DISTANCE;
 
-int servoClose;
-int servoOpen;
+int servoCloseAngle;
+int servoOpenAngle;
+int servoOpenTime;
 
 // Init -----------------------------------------
 void initUltrasonic(int trigger, int echo, int maxDistance)
@@ -20,23 +21,22 @@ void initUltrasonic(int trigger, int echo, int maxDistance)
     digitalWrite(pTrigger, LOW);
 }
 
-void initServo(int pServo, int servClose, int servOpen)
+void initServo(int pServo, int servClose, int servOpen, int servOpenTime)
 {
     // Init
-    servoClose = servClose;
-    servoOpen = servOpen;
+    servoCloseAngle = servClose;
+    servoOpenAngle = servOpen;
+    servoOpenTime = servOpenTime;
 
     // Attach servo
     ioe.attach(pServo);
 
     // Test servo
-    // ioe.write(180);
-    // delay(1000);
-    ioe.write(90);
+    ioe.write(servoOpenAngle);
     delay(1000);
 
     // Init
-    ioe.write(servoClose);
+    ioe.write(servoCloseAngle);
     delay(100);
 }
 
@@ -52,16 +52,16 @@ long ultrasinicPing()
     return duration / 29 / 2;
 }
 
-void servoMove(long dist)
+void servoOpen(long dist)
 {
     if (dist > 1 && dist < MAX_DISTANCE)
     {
         Serial.println(dist);
 
         digitalWrite(LED_BUILTIN, HIGH);
-        ioe.write(servoOpen);
-        delay(1000);
-        ioe.write(servoClose);
+        ioe.write(servoOpenAngle);
+        delay(servoOpenTime);
+        ioe.write(servoCloseAngle);
         delay(2000);
         digitalWrite(LED_BUILTIN, LOW);
     }

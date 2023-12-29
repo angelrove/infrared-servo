@@ -1,13 +1,15 @@
 #include "helpers.h"
 
+// Ultrasonic
 #define pTrigger 4
 #define pEcho 7
-#define MAX_DISTANCE 12
+#define MAX_DISTANCE 16
 
+// Servo
 #define pServo 9
-#define servoClose 0
-#define servoOpen 90
-#define servoOpenTime 500
+#define servoCloseAngle 180
+#define servoOpenAngle 90
+#define servoOpenTime 300
 
 void setup()
 {
@@ -22,7 +24,7 @@ void setup()
   initUltrasonic(pTrigger, pEcho, MAX_DISTANCE);
 
   // Init servo
-  initServo(pServo, servoClose, servoOpen, servoOpenTime);
+  initServo(pServo, servoCloseAngle, servoOpenAngle, servoOpenTime);
 }
 
 void loop()
