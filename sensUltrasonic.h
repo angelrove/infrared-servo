@@ -1,13 +1,11 @@
 #include <Servo.h>
 Servo ioe;
 
+// Ultrasonic
 int pTrigger;
 int pEcho;
 int MAX_DISTANCE;
-
-int servoCloseAngle;
-int servoOpenAngle;
-int servoOpenTime;
+bool ultrasonicStarted = false;
 
 // Init -----------------------------------------
 void initUltrasonic(int trigger, int echo, int maxDistance)
@@ -21,28 +19,23 @@ void initUltrasonic(int trigger, int echo, int maxDistance)
     digitalWrite(pTrigger, LOW);
 }
 
-void initServo(int pServo, int servClose, int servOpen, int servOpenTime)
+void ultrasonicStart()
 {
-    // Init
-    servoCloseAngle = servClose;
-    servoOpenAngle = servOpen;
-    servoOpenTime = servOpenTime;
-
-    // Attach servo
-    ioe.attach(pServo);
-
-    // Test servo
-    ioe.write(servoOpenAngle);
-    delay(1000);
-
-    // Init
-    ioe.write(servoCloseAngle);
-    delay(100);
+    ultrasonicStarted = true;
 }
 
-// Helpers ---------------------------------------
+void ultrasonicStop()
+{
+    ultrasonicStarted = false;
+}
+
 long ultrasinicPing()
 {
+    if (!ultrasonicStarted)
+    {
+        return -1;
+    }
+
     digitalWrite(pTrigger, HIGH);
     delayMicroseconds(10);
     digitalWrite(pTrigger, LOW);
@@ -50,21 +43,6 @@ long ultrasinicPing()
 
     // return microsecondsToCentimeters(duration);
     return duration / 29 / 2;
-}
-
-void servoOpen(long dist)
-{
-    if (dist > 1 && dist < MAX_DISTANCE)
-    {
-        Serial.println(dist);
-
-        digitalWrite(LED_BUILTIN, HIGH);
-        ioe.write(servoOpenAngle);
-        delay(servoOpenTime);
-        ioe.write(servoCloseAngle);
-        delay(2000);
-        digitalWrite(LED_BUILTIN, LOW);
-    }
 }
 
 long microsecondsToCentimeters(long microseconds)

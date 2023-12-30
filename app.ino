@@ -1,4 +1,5 @@
-#include "helpers.h"
+#include "sensUltrasonic.h"
+#include "actServo.h"
 
 // Ultrasonic
 #define pTrigger 4
@@ -9,7 +10,7 @@
 #define pServo 9
 #define servoCloseAngle 180
 #define servoOpenAngle 90
-#define servoOpenTime 300
+#define servoOpenTime 400
 
 void setup()
 {
@@ -22,6 +23,7 @@ void setup()
 
   // Init sensor
   initUltrasonic(pTrigger, pEcho, MAX_DISTANCE);
+  // ultrasonicStart();
 
   // Init servo
   initServo(pServo, servoCloseAngle, servoOpenAngle, servoOpenTime);
@@ -30,6 +32,12 @@ void setup()
 void loop()
 {
   long distance = ultrasinicPing();
-  servoOpen(distance);
+  Serial.println(distance);
+
+  if (distance > 1 && distance < MAX_DISTANCE)
+  {
+    servoOpen();
+  }
+
   delay(200);
 }
