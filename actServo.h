@@ -1,6 +1,7 @@
 int servoCloseAngle;
 int servoOpenAngle;
 int servoOpenTime;
+#define ledPin 13
 
 void initServo(int pServo, int servClose, int servOpen, int servOpenTime)
 {
@@ -8,6 +9,10 @@ void initServo(int pServo, int servClose, int servOpen, int servOpenTime)
     servoCloseAngle = servClose;
     servoOpenAngle = servOpen;
     servoOpenTime = servOpenTime;
+
+    // Init LED
+    pinMode(ledPin, OUTPUT);
+    digitalWrite(ledPin, LOW);
 
     // Attach servo
     ioe.attach(pServo);
@@ -23,10 +28,12 @@ void initServo(int pServo, int servClose, int servOpen, int servOpenTime)
 
 void servoOpen()
 {
-    digitalWrite(LED_BUILTIN, HIGH);
+    digitalWrite(ledPin, HIGH);
+
     ioe.write(servoOpenAngle);
     delay(servoOpenTime);
     ioe.write(servoCloseAngle);
     delay(2000);
-    digitalWrite(LED_BUILTIN, LOW);
+
+    digitalWrite(ledPin, LOW);
 }

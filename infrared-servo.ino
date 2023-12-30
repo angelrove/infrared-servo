@@ -12,18 +12,21 @@
 #define servoOpenAngle 90
 #define servoOpenTime 400
 
+// Button
+#define pButton 10
+bool buttonOn = false;
+#define ledButton 12
+
 void setup()
 {
   Serial.begin(9600);
   Serial.println("Starting...");
 
-  // Init led
-  pinMode(LED_BUILTIN, OUTPUT);
-  digitalWrite(LED_BUILTIN, LOW);
+  // Button
+  pinMode(pButton, INPUT_PULLUP);
 
   // Init sensor
   initUltrasonic(pTrigger, pEcho, MAX_DISTANCE);
-  // ultrasonicStart();
 
   // Init servo
   initServo(pServo, servoCloseAngle, servoOpenAngle, servoOpenTime);
@@ -31,13 +34,40 @@ void setup()
 
 void loop()
 {
-  long distance = ultrasinicPing();
-  Serial.println(distance);
+  // Button
+  parseButton();
 
+  // Ultrasonic (ping)
+  long distance = ultrasinicPing();
+  // Serial.println(distance);
+
+  // Servo (open)
   if (distance > 1 && distance < MAX_DISTANCE)
   {
     servoOpen();
   }
 
   delay(200);
+}
+
+void parseButton()
+{
+  Serial.println(digitalRead(pButton));
+  if (digitalRead(pButton) == LOW)
+  {
+    if (!buttonOn)
+    {
+      // Serial.println("Button On");
+      buttonOn = true;
+      digitalWrite(ledButton, HIGH);
+      ultrasonicStart();
+    }
+    else
+    {
+      // Serial.println("Button Off");
+      buttonOn = false;
+      digitalWrite(ledButton, LOW);
+      ultrasonicStop();
+    }
+  }
 }
