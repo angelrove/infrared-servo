@@ -1,6 +1,6 @@
 #include "sensUltrasonic.h"
 #include "actServo.h"
-#include "Button.h"
+#include "ToggleButton.h"
 
 // Ultrasonic
 #define pTrigger 4
@@ -27,19 +27,16 @@ void setup()
 
 void loop()
 {
-  // Load button
-  bool buttonOn = loadButtonOn();
-  Serial.println(buttonOn);
-
-  if (buttonOn == true)
+  // Load stop button
+  if (isButtonOn() == true)
   {
     digitalWrite(ledButton, HIGH);
-    ultrasonicStart();
   }
   else
   {
     digitalWrite(ledButton, LOW);
-    ultrasonicStop();
+    delay(200);
+    return;
   }
 
   // Ultrasonic (ping)

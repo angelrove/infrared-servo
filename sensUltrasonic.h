@@ -5,7 +5,7 @@ Servo ioe;
 int pTrigger;
 int pEcho;
 int MAX_DISTANCE;
-bool ultrasonicStarted = false;
+bool ultrasonicStarted = true;
 
 // Init -----------------------------------------
 void initUltrasonic(int trigger, int echo, int maxDistance)
