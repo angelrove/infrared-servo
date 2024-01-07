@@ -18,8 +18,8 @@ void initServo(int pServo, int servClose, int servOpen, int servOpenTime)
     ioe.attach(pServo);
 
     // Test servo
-    ioe.write(servoOpenAngle);
-    delay(1000);
+    // ioe.write(servoOpenAngle);
+    // delay(1000);
 
     // Init
     ioe.write(servoCloseAngle);

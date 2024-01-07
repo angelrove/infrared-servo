@@ -10,8 +10,8 @@
 // Servo
 #define pServo 9
 #define servoCloseAngle 180
-#define servoOpenAngle 90
-#define servoOpenTime 400
+#define servoOpenAngle 70
+#define servoOpenTime 900
 
 // Button
 #define pButton 10
@@ -19,7 +19,9 @@
 
 void setup()
 {
-  Serial.begin(9600);
+  // Serial.begin(9600);
+  // pinMode(ledButton, OUTPUT);
+
   initButton(pButton);
   initUltrasonic(pTrigger, pEcho, MAX_DISTANCE);
   initServo(pServo, servoCloseAngle, servoOpenAngle, servoOpenTime);
